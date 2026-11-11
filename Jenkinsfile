@@ -48,7 +48,7 @@ pipeline {
             emailext(
                 subject: "SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
                 body: "Build, Test and Deployment completed successfully. Check: ${BUILD_URL}",
-                to: "YOUR_EMAIL@gmail.com"
+                to: "reenaadluri@gmail.com"
             )
         }
 
