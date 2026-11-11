@@ -12,33 +12,43 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building the web application'
+                echo 'Building Web Application'
                 bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running Maven tests'
+                echo 'Running Tests'
                 bat 'mvn test'
             }
         }
 
         stage('Package') {
             steps {
-                echo 'Packaging WAR file'
+                echo 'Packaging WAR File'
                 archiveArtifacts artifacts: 'target/*.war',
                                  fingerprint: true
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Web Application'
+                bat '''
+                if not exist C:\\JenkinsDeploy mkdir C:\\JenkinsDeploy
+                copy /Y target\\webproject.war C:\\JenkinsDeploy\\webproject.war
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Build, Test and Deployment Successful!'
         }
         failure {
-            echo 'Pipeline failed. Check the console output.'
+            echo 'Pipeline Failed!'
         }
     }
 }
